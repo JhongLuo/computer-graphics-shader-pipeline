@@ -6,10 +6,10 @@
 // Inputs:
 //   f  input value 
 // Returns filtered output value
-float improved_smooth_step( float f)
+float improved_smooth_step(float f)
 {
   /////////////////////////////////////////////////////////////////////////////
-  if (f <= 0.0){
+  if (f <= 0.0){ 
     return 0.0;
   }
   else if (f >= 1.0){
@@ -18,12 +18,13 @@ float improved_smooth_step( float f)
   else { 
     //s(t)=6t^5−15t^4+10t^3
     return 6 * pow(f, 5) - 15 * pow(f, 4) + 10 * pow(f, 3);
+    //return 3 * pow(f, 2) -2 * pow(f, 3);
   }
   /////////////////////////////////////////////////////////////////////////////
 }
-vec3 improved_smooth_step( vec3 f)
+vec3 improved_smooth_step(vec3 f)
 {
   /////////////////////////////////////////////////////////////////////////////
-  return vec3(smooth_step(f.x), smooth_step(f.y), smooth_step(f.z));
+  return vec3(improved_smooth_step(f.x), improved_smooth_step(f.y), improved_smooth_step(f.z));
   /////////////////////////////////////////////////////////////////////////////
 }
