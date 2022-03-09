@@ -4,19 +4,26 @@
 // and f=1. "Improving Noise" [Perlin 2002].
 //
 // Inputs:
-//   f  input value
+//   f  input value 
 // Returns filtered output value
 float improved_smooth_step( float f)
 {
   /////////////////////////////////////////////////////////////////////////////
-  // Replace with your code 
-  return f;
+  if (f <= 0.0){
+    return 0.0;
+  }
+  else if (f >= 1.0){
+    return 1.0;
+  }
+  else { 
+    //s(t)=6t^5−15t^4+10t^3
+    return 6 * pow(f, 5) - 15 * pow(f, 4) + 10 * pow(f, 3);
+  }
   /////////////////////////////////////////////////////////////////////////////
 }
 vec3 improved_smooth_step( vec3 f)
 {
   /////////////////////////////////////////////////////////////////////////////
-  // Replace with your code 
-  return f;
+  return vec3(smooth_step(f.x), smooth_step(f.y), smooth_step(f.z));
   /////////////////////////////////////////////////////////////////////////////
 }
