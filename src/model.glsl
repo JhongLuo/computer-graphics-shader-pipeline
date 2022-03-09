@@ -14,7 +14,7 @@ mat4 model(bool is_moon, float time)
     // If is_moon is true, then shrink the model by 70%, shift away
     // from the origin by 2 units and rotate around the origin at a frequency of 1
     // revolution per 4 seconds.
-    return rotate_about_y(time / 2 * 3.1415926) * translate(vec3(2, 0, 0)) * uniform_scale(0.3);
+    return rotate_about_y(time / 4 * 2 * 3.1415926) * translate(vec3(2, 0, 0)) * uniform_scale(0.3);
   } else {
     return identity();
   }

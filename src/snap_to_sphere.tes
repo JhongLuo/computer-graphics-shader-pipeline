@@ -10,37 +10,38 @@ uniform mat4 proj;
 uniform float animation_seconds;
 uniform bool is_moon;
 // Inputs:
-//                    array of 3 3D patch corner positions
+//                   array of 3 3D patch corner positions
 in vec4 pos_es_in[];
 // Outputs:
 //                   projected, view, and model transformed 3D position
 out vec4 pos_fs_in;
-//                        view and model transformed 3D position
+//                   view and model transformed 3D position
 out vec4 view_pos_fs_in;
-//                      view and model transformed 3D normal
+//                   view and model transformed 3D normal
 out vec3 normal_fs_in;
-//                      3D position _before_ applying model, view or projection
-//                      transformations (e.g., point on unit sphere)
+//                   3D position _before_ applying model, view or projection
+//                   transformations (e.g., point on unit sphere)
 out vec3 sphere_fs_in;
 // expects: interpolat, model, 
 void main()
 {
   /////////////////////////////////////////////////////////////////////////////
-  mat4 modeling_transformation = model(is_moon, animation_seconds);
+  mat4 model_matrix = model(is_moon, animation_seconds);
 
-  vec4 interpolated = interpolate(gl_TessCoord, pos_es_in[0], pos_es_in[1], pos_es_in[2]);
-  interpolated = vec4(normalize(interpolated.xyz), 1.0);
-
-  sphere_fs_in = interpolated.xyz;
-
-  view_pos_fs_in = view * modeling_transformation * interpolated;
+  vec4 interpolate_matrix = interpolate(gl_TessCoord, pos_es_in[0], pos_es_in[1], pos_es_in[2]);
   
-  normal_fs_in = normalize((view_pos_fs_in - view * modeling_transformation * vec4(0, 0, 0, 1)).xyz);
+  interpolate_matrix = vec4(normalize(interpolate_matrix.xyz), 1);
 
-  pos_fs_in = proj * view * modeling_transformation * interpolated;
+  pos_fs_in = proj * view * model_matrix * interpolate_matrix;
 
   gl_Position = pos_fs_in;
+
+  view_pos_fs_in = view * model_matrix * interpolate_matrix;
+  
+  normal_fs_in = normalize((view_pos_fs_in - view * model_matrix * vec4(0, 0, 0, 1)).xyz);
+
+  sphere_fs_in = interpolate_matrix.xyz;
+
+  
   /////////////////////////////////////////////////////////////////////////////
 }
-
-
