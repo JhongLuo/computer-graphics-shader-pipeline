@@ -15,7 +15,10 @@ out vec4 pos_es_in[];
 void main()
 {   
   /////////////////////////////////////////////////////////////////////////////
-  // Replace with your code:
+  gl_TessLevelInner[0] = 5;
+  gl_TessLevelOuter[0] = 5;
+  gl_TessLevelOuter[1] = 5;
+  gl_TessLevelOuter[2] = 5;
   pos_es_in[gl_InvocationID] = pos_cs_in[gl_InvocationID];
   /////////////////////////////////////////////////////////////////////////////
 }

@@ -26,8 +26,19 @@ out vec3 sphere_fs_in;
 void main()
 {
   /////////////////////////////////////////////////////////////////////////////
-  // Replace with your code 
-  pos_fs_in = interpolate(gl_TessCoord, pos_es_in[0], pos_es_in[1], pos_es_in[2]);
+  mat4 modeling_transformation = model(is_moon, animation_seconds);
+
+  vec4 interpolated = interpolate(gl_TessCoord, pos_es_in[0], pos_es_in[1], pos_es_in[2]);
+  interpolated = vec4(normalize(interpolated.xyz), 1.0);
+
+  sphere_fs_in = interpolated.xyz;
+
+  view_pos_fs_in = view * modeling_transformation * interpolated;
+  
+  normal_fs_in = normalize((view_pos_fs_in - view * modeling_transformation * vec4(0, 0, 0, 1)).xyz);
+
+  pos_fs_in = proj * view * modeling_transformation * interpolated;
+
   gl_Position = pos_fs_in;
   /////////////////////////////////////////////////////////////////////////////
 }

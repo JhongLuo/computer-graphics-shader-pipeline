@@ -9,9 +9,9 @@
 uniform mat4 view;
 //                  4x4 perspective projection matrix: transforms
 uniform mat4 proj;
-//                                number of seconds animation has been running
+//                  number of seconds animation has been running
 uniform float animation_seconds;
-//                     whether we're rendering the moon or the other object
+//                  whether we're rendering the moon or the other object
 uniform bool is_moon;
 // Inputs:
 //                  3D position of mesh vertex
@@ -19,12 +19,11 @@ in vec3 pos_vs_in;
 // Ouputs:
 //                   transformed and projected position in homogeneous
 //                   coordinates
-out vec4 pos_cs_in; 
+out vec4 pos_cs_in;
 // expects: PI, model
 void main()
 {
   /////////////////////////////////////////////////////////////////////////////
-  // Replace with your code 
-  pos_cs_in = vec4(pos_vs_in,1.0);
+  pos_cs_in = proj * view * model(is_moon, animation_seconds) * vec4(pos_vs_in, 1);
   /////////////////////////////////////////////////////////////////////////////
 }
